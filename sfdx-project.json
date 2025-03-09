@@ -1,6 +1,8 @@
 {
   "packageDirectories": [
     {
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
       "path": "force-app",
       "default": true,
       "dependencies": [
@@ -10,11 +12,16 @@
         {
           "package": "04t5G000003RUjoQAG"
         }
-      ]
+      ],
+      "package": "Traction Rec Contract Merge Fields",
+      "versionDescription": "Dynamic contract and form content in Traction Rec"
     }
   ],
   "name": "TractionRecContractMergeFields",
   "namespace": "agrec",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "62.0"
+  "sourceApiVersion": "62.0",
+  "packageAliases": {
+    "Traction Rec Contract Merge Fields": "0HoUX00000000jB0AQ"
+  }
 }

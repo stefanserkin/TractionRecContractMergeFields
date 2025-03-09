@@ -1,6 +1,6 @@
 # Traction Rec Contract Merge Fields
 
-Merge data from the contract and form or related records for dynamic waiver content.
+Dynamic contract and form content in Traction Rec.
 
 ## Docs
 
