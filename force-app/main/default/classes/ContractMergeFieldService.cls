@@ -14,14 +14,14 @@ public inherited sharing class ContractMergeFieldService {
      * @return Set<String> Merge fields
      ****************************************************/
     public static Set<String> getMergeFieldsFromString(String input) {
-        Set<String> setMergeFields = new Set<String>();
+        Set<String> mergeFields = new Set<String>();
         Pattern p = Pattern.compile(MERGE_FIELD_REGEX);
         Matcher m = p.matcher(input);
         while(m.find()) {
             String mergeFieldApiName = m.group().substring(2, m.group().length() - 1);
-            setMergeFields.add(mergeFieldApiName);
+            mergeFields.add(mergeFieldApiName);
         }
-        return setMergeFields;
+        return mergeFields;
     }
 
     /****************************************************
