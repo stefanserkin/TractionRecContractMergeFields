@@ -2,11 +2,19 @@
   "packageDirectories": [
     {
       "path": "force-app",
-      "default": true
+      "default": true,
+      "dependencies": [
+        {
+          "package": "04t1U0000058cL3QAI"
+        },
+        {
+          "package": "04t5G000003RUjoQAG"
+        }
+      ]
     }
   ],
   "name": "TractionRecContractMergeFields",
-  "namespace": "",
+  "namespace": "agrec",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "62.0"
 }
