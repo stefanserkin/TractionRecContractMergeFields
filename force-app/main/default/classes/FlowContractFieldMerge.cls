@@ -4,7 +4,7 @@
  ***********************************************************************/
 public with sharing class FlowContractFieldMerge {
 
-    @InvocableMethod(label='Populate Merge Fields' description='Contract and form merge service')
+    @InvocableMethod(label='Populate Contract Merge Fields' category='Traction Rec' description='Contract and form merge service')
     public static List<Result> populateMergeFields(List<Request> requests) {
         List<Result> results = new List<Result>();
 
@@ -13,7 +13,6 @@ public with sharing class FlowContractFieldMerge {
             contracts.add(request.contract);
         }
 
-        // Merge service
         ContractFieldMerge fieldMerge = new ContractFieldMerge(contracts);
         List<TREX1__Contract_and_Form__c> updatedContracts = fieldMerge.populateMergeFields();
 
