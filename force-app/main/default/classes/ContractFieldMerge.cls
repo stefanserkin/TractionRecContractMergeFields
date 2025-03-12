@@ -5,6 +5,8 @@
  ***********************************************************************/
 public without sharing class ContractFieldMerge {
 
+    private static final String WAIVER_TEXT_FIELD = 'TREX1__Waiver_Text__c';
+
     private List<TREX1__Contract_and_Form__c> contracts;
 
     public ContractFieldMerge(List<TREX1__Contract_and_Form__c> contracts) {
@@ -20,11 +22,12 @@ public without sharing class ContractFieldMerge {
         List<String> mergeFields = getMergeFields();
         String query = 'SELECT ' + String.join(mergeFields, ', ') + 
                         ' FROM TREX1__Contract_and_Form__c WHERE Id IN :contracts';
+        System.debug(':::: query --> ' + query);
         return String.escapeSingleQuotes(query);
     }
 
     private List<String> getMergeFields() {
-        Set<String> uniqueMergeFields = new Set<String>{ 'TREX1__Waiver_Text__c' };
+        Set<String> uniqueMergeFields = new Set<String>{ WAIVER_TEXT_FIELD };
         for (TREX1__Contract_and_Form__c contract : contracts) {
             uniqueMergeFields.addAll( ContractMergeFieldService.getMergeFieldsFromString(contract.TREX1__Waiver_Text__c) );
         }

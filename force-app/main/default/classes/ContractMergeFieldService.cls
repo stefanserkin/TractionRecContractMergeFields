@@ -31,15 +31,24 @@ public inherited sharing class ContractMergeFieldService {
      * @return String String with merge fields replaced
      ****************************************************/
     public static String replaceMergeFieldsWithValues(String input, SObject obj) {
+        System.debug('::: entered: replace merge fields with values with input --> ' + input);
+        if (input == null || input.trim() == '') {
+            return null;
+        }
+
         String result = input;
         Pattern p = Pattern.compile(MERGE_FIELD_REGEX);
         Matcher m = p.matcher(result);
 
         while(m.find()) {
             String fieldApiPath = m.group().substring(2, m.group().length() - 1);
+            System.debug('::: fieldApiPath --> ' + fieldApiPath);
             Object fieldValue = getFieldValue(obj, fieldApiPath);
+            System.debug('::: fieldValue --> ' + fieldValue);
             Schema.DescribeFieldResult fieldDescribe = getFieldDescribe(obj, fieldApiPath);
+            System.debug('::: fieldDescribe --> ' + fieldDescribe);
             String formattedValue = formatFieldValue(fieldValue, fieldDescribe);
+            System.debug('::: formattedValue --> ' + formattedValue);
             result = result.replace(m.group(0), formattedValue);
         }
         return result;
@@ -53,22 +62,31 @@ public inherited sharing class ContractMergeFieldService {
      * @return The field value as a generic object
      ****************************************************/
     private static Object getFieldValue(SObject record, String fieldPath) {
+        System.debug(':::: entered: get field value for fieldPath --> ' + fieldPath);
         Object result;
         List<String> fieldParts = fieldPath.split('\\.');
+        System.debug(':::: field parts --> ' + fieldParts);
         SObject currentRecord = record;
 
         // Iterate through field path parts
         for (Integer i = 0; i < fieldParts.size(); i++) {
+            System.debug(':::: currentRecord --> ' + currentRecord);
             String field = fieldParts[i];
+            System.debug(':::: evaluating field part --> ' + field);
 
             // If it's the last field in the path, return the field value
             if (i == fieldParts.size() - 1) {
+                System.debug(':::: is last part. return value');
                 result = currentRecord.get(field);
                 break;
             }
 
             // Otherwise, traverse the relationship
             currentRecord = currentRecord.getSObject(field);
+            if (currentRecord == null) {
+                System.debug(':::: current record is null. return null.');
+                return null;
+            }
         }
         return result;
     }
@@ -92,11 +110,10 @@ public inherited sharing class ContractMergeFieldService {
             // Handle relationship field resolution
             if (!fieldMap.containsKey(fieldName)) {
                 String lookupFieldName = fieldName.endsWith('__r') ? fieldName.replace('__r', '__c') : fieldName + 'Id';
-                if (fieldMap.containsKey(lookupFieldName)) {
-                    fieldName = lookupFieldName;
-                } else {
+                if (!fieldMap.containsKey(lookupFieldName)) {
                     return null;
                 }
+                fieldName = lookupFieldName;
             }
 
             Schema.SObjectField field = fieldMap.get(fieldName);
