@@ -14,17 +14,33 @@ private class ContractMergeFieldService_Test {
     }
 
     @IsTest
+    static void testGetMergeFieldsWithFallbackValue() {
+        String input = 'Hello {!Name, "Guest"}, your contract ID is {!Id}';
+        Set<String> expectedFields = new Set<String>{'Name', 'Id'};
+        
+        Test.startTest();
+        Set<String> actualFields = ContractMergeFieldService.getMergeFieldsFromString(input);
+        Test.stopTest();
+        
+        System.Assert.areEqual(expectedFields, actualFields, 'Merge fields should match expected values.');
+    }
+
+    @IsTest
     static void testReplaceMergeFieldsWithValues() {
         String accountName = 'Test Account for Merges';
-        Account acc = new Account(Name = accountName);
+        Account acc = new Account(Name = accountName, NumberOfEmployees = 100, Industry = null);
 
-        String input = 'Hello {!Name}!';
+        String input = 'Hello {!Name} from the {!Industry, &quot;World&quot;}! Congrats on your {!NumberOfEmployees} employees.';
 
         Test.startTest();
         String result = ContractMergeFieldService.replaceMergeFieldsWithValues(input, acc);
         Test.stopTest();
 
-        System.Assert.isTrue(result.contains(accountName), 'Merge field should be replaced with actual value.');
+        System.Assert.areEqual(
+            'Hello ' + accountName + ' from the World! Congrats on your 100 employees.',
+            result,
+            'Merge fields should be replaced with actual values.'
+        );
     }
 
     @IsTest

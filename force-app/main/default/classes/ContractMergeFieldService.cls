@@ -18,7 +18,6 @@ public inherited sharing class ContractMergeFieldService {
         Pattern p = Pattern.compile(MERGE_FIELD_REGEX);
         Matcher m = p.matcher(input);
         while(m.find()) {
-            // String mergeFieldApiName = m.group().substring(2, m.group().length() - 1);
             String fieldApiPath = m.group(1);
             mergeFields.add(fieldApiPath);
         }
@@ -37,8 +36,8 @@ public inherited sharing class ContractMergeFieldService {
         Matcher m = p.matcher(result);
     
         while (m.find()) {
-            String fieldApiPath = m.group(1); // Merge field
-            String defaultValue = m.group(2) != null ? m.group(2) : m.group(3); // Optional default/fallback
+            String fieldApiPath = m.group(1);
+            String defaultValue = m.group(2) != null ? m.group(2) : m.group(3);
     
             Object fieldValue = getFieldValue(obj, fieldApiPath);
             String formattedValue;
