@@ -22,7 +22,6 @@ public without sharing class ContractFieldMerge {
         List<String> mergeFields = getMergeFields();
         String query = 'SELECT ' + String.join(mergeFields, ', ') + 
                         ' FROM TREX1__Contract_and_Form__c WHERE Id IN :contracts';
-        System.debug(':::: query --> ' + query);
         return String.escapeSingleQuotes(query);
     }
 
